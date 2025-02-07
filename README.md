@@ -1,4 +1,14 @@
 # NextJs_Practice
-This is the NexJs project
-Test
-uu
+This is the NexJs project.
+==========
+1. Nextjs giải quyết vấn đề gì ?
++ Render website ở server -> SEO
++ Tối ưu image,font,script, Routing ,Middleware , Server Action, SEO
+
+======== Next Project Structure
++ .Next folder : chứa code khi build 
++ src/app : app router
++ page.tsx : the same with index.js
++ next.config.ts : configuration of next.js
++ postcss.config : 
++ tailwin.config.ts : Sửa content khi muốn thêm đường dẫn cho tailwind hiểu file muốn css 
