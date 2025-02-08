@@ -12,3 +12,13 @@ This is the NexJs project.
 + next.config.ts : configuration of next.js
 + postcss.config : 
 + tailwin.config.ts : Sửa content khi muốn thêm đường dẫn cho tailwind hiểu file muốn css 
++ Css: globals.css ; 
+    .Thành phần cơ bản của HTML: h1, h2 , thẻ html 
+        -> đưa vào @layer base . 
+        => Tailwind sẽ biết độ ưu tiên để override lại . sắp xếp trong file global
+    . Module: chỉ apply cho component đó thôi
+    . SCSS : npm i sass
+    . clsx : dùng cho class động 
++ Khi dùng Hooks thì phải 'use client' 
+
+
