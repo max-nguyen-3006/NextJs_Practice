@@ -72,12 +72,6 @@ body {
     @apply bg-background text-foreground;
   }
 
-  h1,
-  h2,
-  h3,
-  a {
-    @apply text-red-600;
-  }
 }
 @layer utilities {
   .text-mini {
