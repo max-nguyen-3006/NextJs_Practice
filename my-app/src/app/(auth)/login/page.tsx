@@ -1,7 +1,13 @@
-import React from 'react'
+import LoginForm from "@/app/(auth)/login/login-form";
+import React from "react";
 
 export default function LoginPage() {
   return (
-    <div>This is a login page</div>
-  )
+    <div>
+      <h1 className="text-xl font-semibold text-center"> Login </h1>
+      <div className="flex justify-center">
+        <LoginForm />
+      </div>
+    </div>
+  );
 }

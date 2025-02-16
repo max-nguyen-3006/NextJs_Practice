@@ -12,39 +12,71 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  RegisterBody,
-  RegisterBodyType,
-} from "@/schemaValidations/auth.schema";
+import { LoginBody, LoginBodyType } from "@/schemaValidations/auth.schema";
 import envConfig from "@/config";
+import { useToast } from "@/hooks/use-toast";
 
-export default function RegisterForm() {
+export default function LoginForm() {
+  const { toast } = useToast();
   // 1. Define your form.
-  const form = useForm<RegisterBodyType>({
-    resolver: zodResolver(RegisterBody),
+  const form = useForm<LoginBodyType>({
+    resolver: zodResolver(LoginBody),
     defaultValues: {
       email: "",
-      name: "",
       password: "",
-      confirmPassword: "",
     },
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: RegisterBodyType) {
-    console.log(values);
-    console.log(process.env.NEXT_PUBLIC_API_ENDPOINT);
-    const result = await fetch(
-      `${envConfig?.NEXT_PUBLIC_API_ENDPOINT}/auth/register`,
-      {
-        body: JSON.stringify(values),
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+  async function onSubmit(values: LoginBodyType) {
+    try {
+      const result = await fetch(
+        `${envConfig?.NEXT_PUBLIC_API_ENDPOINT}/auth/login`,
+        {
+          body: JSON.stringify(values),
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      ).then(async (res) => {
+        const payload = await res.json();
+        const data = {
+          status: res.status,
+          payload,
+        };
+        if (!res.ok) {
+          throw data;
+        }
+        return data;
+      });
+      toast({
+        description: result.payload.message,
+      });
+    } catch (error) {
+      console.log("ooooooooooooooooooo");
+
+      console.log(error);
+      const errors = error.payload.errors as {
+        message: string;
+        field: string;
+      }[];
+      const status = error.status as number;
+      if (status === 422) {
+        errors.forEach((error) => {
+          form.setError(error.field as "email" | "password", {
+            type: "server",
+            message: error.message,
+          });
+        })
+      } else {
+        toast({
+          title: "Error",
+          description: error.payload.message,
+          variant: "destructive",
+        });
       }
-    ).then((res) => res.json());
-    
+    }
   }
   return (
     <Form {...form}>
@@ -53,19 +85,6 @@ export default function RegisterForm() {
         className="space-y-2 max-w-[600px] flex-shrink-0 w-full"
         noValidate
       >
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="email"
@@ -92,23 +111,7 @@ export default function RegisterForm() {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="confirmPassword"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>ConfirmPassword</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="confirmPassword"
-                  type="password"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
         <Button type="submit" className="!mt-8 w-full">
           Submit
         </Button>
