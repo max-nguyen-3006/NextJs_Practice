@@ -13,15 +13,17 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
-  RegisterBody,
-  RegisterBodyType,
+  // RegisterBody,
+  // RegisterBodyType,
+  RegisterBodyTypeSchemas,
+  registerSchemas,
 } from "@/schemaValidations/auth.schema";
 import envConfig from "@/config";
 
 export default function RegisterForm() {
   // 1. Define your form.
-  const form = useForm<RegisterBodyType>({
-    resolver: zodResolver(RegisterBody),
+  const form = useForm<RegisterBodyTypeSchemas>({
+    resolver: zodResolver(registerSchemas),
     defaultValues: {
       email: "",
       name: "",
@@ -31,7 +33,7 @@ export default function RegisterForm() {
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: RegisterBodyType) {
+  async function onSubmit(values: RegisterBodyTypeSchemas) {
     console.log(values);
     console.log(process.env.NEXT_PUBLIC_API_ENDPOINT);
     const result = await fetch(
@@ -44,7 +46,6 @@ export default function RegisterForm() {
         },
       }
     ).then((res) => res.json());
-    
   }
   return (
     <Form {...form}>
@@ -109,7 +110,7 @@ export default function RegisterForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="!mt-8 w-full">
+        <Button id="register-button" type="submit" className="!mt-8 w-full">
           Submit
         </Button>
       </form>

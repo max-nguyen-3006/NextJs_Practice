@@ -1,0 +1,14 @@
+{
+    "validUser": {
+      "email": "test@gmail.com",
+      "password": "123456"
+    },
+    "invalidUser1": {
+        "email": "test11111@gmail.com",
+        "password": "lambdatest212"
+    },
+    "invalidUser2": {
+        "email": "test1111111@gmail.com",
+        "password": "123456"
+    }
+  }
