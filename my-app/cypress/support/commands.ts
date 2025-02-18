@@ -41,3 +41,9 @@ Cypress.Commands.add("loginViaUser", (user) => {
   cy.get("[data-cy=password]").type(user.password);
   cy.get("[data-cy=login-btn]").click();
 });
+Cypress.Commands.add("loginToApplication", () => {
+  cy.visit("/login");
+  cy.get('[placeholder="Email"]').type("cytest@test.com");
+  cy.get('[placeholder="Password"]').type("Welcome123");
+  cy.get("form").submit();
+});
