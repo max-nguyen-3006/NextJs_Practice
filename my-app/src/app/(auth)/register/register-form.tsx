@@ -20,7 +20,12 @@ import {
 } from "@/schemaValidations/auth.schema";
 import envConfig from "@/config";
 
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+
 export default function RegisterForm() {
+  const { toast } = useToast();
+  const router = useRouter();
   // 1. Define your form.
   const form = useForm<RegisterBodyTypeSchemas>({
     resolver: zodResolver(registerSchemas),
@@ -36,16 +41,46 @@ export default function RegisterForm() {
   async function onSubmit(values: RegisterBodyTypeSchemas) {
     console.log(values);
     console.log(process.env.NEXT_PUBLIC_API_ENDPOINT);
-    const result = await fetch(
-      `${envConfig?.NEXT_PUBLIC_API_ENDPOINT}/auth/register`,
-      {
-        body: JSON.stringify(values),
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((res) => res.json());
+    try {
+      const result = await fetch(
+        `${envConfig?.NEXT_PUBLIC_API_ENDPOINT}/auth/register`,
+        {
+          body: JSON.stringify(values),
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => {
+          if(res.status === 200){
+            toast({
+              className: "register-toast-success",
+              title: "Success",
+              description: "You have successfully registered",
+            });
+            router.push("/login");
+          }
+          else
+          {
+            toast({
+              variant: "destructive",
+              className: "register-toast-failed",
+              title: "Error",
+              description:"You have failed to register",
+            });
+          }
+          console.log(res);
+          
+        })
+        
+    } catch (error) {
+      console.log(error);
+
+
+
+    }
+   
   }
   return (
     <Form {...form}>
@@ -89,7 +124,7 @@ export default function RegisterForm() {
               <FormControl>
                 <Input placeholder="password" type="password" {...field} />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="error-password-message" />
             </FormItem>
           )}
         />

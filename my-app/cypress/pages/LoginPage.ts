@@ -1,5 +1,5 @@
 class LoginPage {
-  login() {
+  accessLoginPage() {
     cy.visit("/login");
   }
   accessHomePage(user) {

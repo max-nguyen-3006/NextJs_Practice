@@ -1,9 +1,7 @@
 import { Then } from "@badeball/cypress-cucumber-preprocessor";
+import register from "pages/RegisterPage";
 
-Then(`I see {string} in the title`, (title) => {
-  cy.title().should("include", title);
-});
 
-Then("Error message {string} will show", (errorMessage: string) => {
-  cy.get("p").contains(errorMessage).should("be.visible");
+Then("the user should see a password error message {string}", (errorMessage) => {
+  register.verifyPasswordErrorWithMessage(errorMessage);
 });

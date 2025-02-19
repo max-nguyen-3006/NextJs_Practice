@@ -2,7 +2,7 @@ import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import login from "pages/LoginPage";
 //access the chorus dashboard
 Given("I visit the login page", () => {
-  login.login();
+  login.accessLoginPage();
 });
 When("I enter login credentials from {string}", (userType) => {
   cy.fixture("login").then((users) => {
