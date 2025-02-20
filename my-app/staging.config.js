@@ -12,7 +12,7 @@ export default defineConfig({
         "file:preprocessor",
         createBundler({
           plugins: [createEsbuildPlugin(config)],
-        }),
+        })
       );
       require("cypress-mochawesome-reporter/plugin")(on);
       return config;
@@ -23,7 +23,7 @@ export default defineConfig({
       omitFiltered: true,
       filterSpecs: true,
     },
-    baseUrl: "https://chorus-dev.one-line.com/",
+    baseUrl: "http://localhost:3000",
     viewportWidth: 1440,
     viewportHeight: 900,
     defaultCommandTimeout: 10000,
@@ -33,22 +33,15 @@ export default defineConfig({
     video: false,
     chromeWebSecurity: true,
     screenshotOnRunFailure: true,
-
+    screenshotsFolder: "cypress/results/screenshots",
     retries: {
       runMode: 2,
       openMode: 0,
     },
 
-    //Report config
-    reporter: "cypress-mochawesome-reporter",
+    reporter: "cypress-multi-reporters",
     reporterOptions: {
-      reportDir: "cypress/reports",
-      charts: true,
-      reportPageTitle: "Test Report",
-      embeddedScreenshots: true,
-      inlineAssets: true,
-      saveAllAttempts: false,
-      saveJson: true,
+      configFile: "reporter-config.json",
     },
   },
 });

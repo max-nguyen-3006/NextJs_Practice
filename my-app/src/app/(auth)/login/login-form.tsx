@@ -13,7 +13,10 @@ import {
 } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
-import { LoginBodyTypeSchemas, loginSchemas } from "@/schemaValidations/auth.schema";
+import {
+  LoginBodyTypeSchemas,
+  loginSchemas,
+} from "@/schemaValidations/auth.schema";
 import envConfig from "@/config";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
@@ -121,7 +124,7 @@ export default function LoginForm() {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage data-cy="error-password-message" />
                 </FormItem>
               )}
             />
