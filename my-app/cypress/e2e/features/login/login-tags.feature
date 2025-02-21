@@ -1,5 +1,5 @@
 @regression
-Feature: User Login - ENV
+Feature: User Login - Tags
 
     @dev
     Scenario Outline: Unsuccessful login with invalid credentials
@@ -13,6 +13,7 @@ Feature: User Login - ENV
             | devUser@gmail.com | wrongPass1 | Invalid email or password |
             | devUser@gmail.com | wrongPass2 | Invalid email or password |
 
+#    @skip
     @staging
     Scenario Outline: Unsuccessful login with invalid credentials
         Given I visit the login page

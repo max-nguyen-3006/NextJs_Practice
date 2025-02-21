@@ -31,17 +31,12 @@ Then("I should be redirected to the dashboard", () => {
 });
 
 Then("I should see a password error message {string}", (errorMessage) => {
-  cy.get('[data-cy="error-password-message"]')
-    .should("be.visible")
-    .and("contain", errorMessage)
-    .debug();
+  login.verifyPasswordError(errorMessage);
 });
 Then("I should see an email error message {string}", (errorMessage) => {
-  cy.get(".error-email-message")
-    .should("be.visible")
-    .and("contain", errorMessage);
+  login.verifyEmailError(errorMessage);
 });
 
 Then("I should remain on the login page", () => {
-  cy.url().should("include", "/login"); // Kiểm tra rằng URL không thay đổi
+  cy.url().should("include", "/login"); 
 });

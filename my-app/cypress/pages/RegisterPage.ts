@@ -45,7 +45,7 @@ export class RegisterPage {
     cy.url().should("include", "/login");
   }
   // Error
-  verifyPasswordErrorWithMessage(message: string) {
+  verifyRegisterPasswordErrorWithMessage(message: string) {
     cy.get(".error-password-message").should("be.visible");
     this.getPasswordError().should("contain", message);
   }

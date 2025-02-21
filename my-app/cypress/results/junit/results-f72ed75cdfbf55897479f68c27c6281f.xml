@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="4.644" tests="2" failures="0">
+  <testsuite name="Root Suite" timestamp="2025-02-21T04:52:51" tests="0" file="cypress\e2e\features\login\login-tags.feature" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="User Login - Tags" timestamp="2025-02-21T04:52:51" tests="2" time="4.634" failures="0">
+    <testcase name="User Login - Tags Unsuccessful login with invalid credentials (example #1)" time="2.755" classname="Unsuccessful login with invalid credentials (example #1)">
+    </testcase>
+    <testcase name="User Login - Tags Unsuccessful login with invalid credentials (example #2)" time="1.777" classname="Unsuccessful login with invalid credentials (example #2)">
+    </testcase>
+  </testsuite>
+</testsuites>

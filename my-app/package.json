@@ -9,14 +9,14 @@
     "lint": "next lint",
     "delete:reports": "rimraf cypress/results || exit 0",
     "prereport": "npm run delete:reports",
-    "e2e:open": "cypress open", 
+    "e2e:open": "cypress open",
     "e2e:run:spec": "cypress run --browser chrome --spec",
-    "mochawesome:merge": "npx mochawesome-merge cypress/results/mochawesome/*.json -o mochawesome.json && npx marge mochawesome.json",
+    "mochawesome:merge": "npx mochawesome-merge cypress/results/mochawesome/*.json -o mochawesome.json && npx marge mochawesome.json --inlineAssets",
     "junit:merge": "npx junit-merge -d cypress/results/junit -o cypress/results/junit/results.xml",
     "e2e:run": "npm run prereport && cypress run --browser chrome && npm run mochawesome:merge && npm run junit:merge",
     "e2e:run:staging": " npm run e2e:run --config-file staging.config.js && npm run mochawesome:merge && npm run junit:merge",
-    "e2e:run:tags:dev": "npm run prereport && cypress run --browser chrome --env tags=\"@dev\" && npm run mochawesome:merge",
-    "e2e:run:tags:regression": "npm run prereport && cypress run --browser chrome --env tags=\"@regression and @dev\" && npm run mochawesome:merge"
+    "e2e:run:tags:dev": "npm run prereport && cypress run --browser chrome --env tags=\"@dev\" && npm run mochawesome:merge && npm run junit:merge",
+    "e2e:run:tags:regression": "npm run prereport && cypress run --browser chrome --env tags=\"@regression and @dev\" && npm run mochawesome:merge && npm run junit:merge"
   },
   "dependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^22.0.1",

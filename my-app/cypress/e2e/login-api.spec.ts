@@ -81,8 +81,6 @@ describe("Login Api", () => {
 
     cy.intercept("POST", "**/articles", (req) => {
       req.reply((res) => {
-        console.log("Resssssssssssssssssssss");
-        console.log(res);
         expect(res.body.article.description).to.equal(
           "this is the description"
         );
@@ -106,49 +104,49 @@ describe("Login Api", () => {
       );
     });
   });
-  it.only("delete a new article in a global feed",{retries: {openMode: 0}}, () => {
-    const dynamicId = Math.random().toString(36);
-    const bodyRequest = {
-      article: {
-        tagList: [],
-        title: "Request from API" + dynamicId,
-        description: "Request from API desc",
-        body: "Request from API body",
-      },
-    };
-    cy.get("@token").then((token) => {
-      cy.request({
-        url: Cypress.env("apiUrl") + "/api/articles",
-        method: "POST",
-        headers: {
-          Authorization: `Token ${token}`,
+  it.only(
+    "delete a new article in a global feed",
+    { retries: { openMode: 0 } },
+    () => {
+      const dynamicId = Math.random().toString(36);
+      const bodyRequest = {
+        article: {
+          tagList: [],
+          title: "Request from API" + dynamicId,
+          description: "Request from API desc",
+          body: "Request from API body",
         },
-        body: bodyRequest,
-      }).then((res) => {
-        console.log("iiiiiiiiiiii");
-        console.log(res);
-        expect(res.status).to.equal(201);
-      });
-
-      cy.contains("Global Feed").click();
-      cy.get(".preview-link").first().click();
-      cy.get(".article-actions").contains("Delete Article").click();
-      //
-      cy.request({
-        url: Cypress.env("apiUrl") + "/api/articles?limit=10&offset=0",
-        method: "GET",
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
-        .its("body")
-        .then((body) => {
-          console.log("Body----------------");
-          console.log(body);
-          expect(body.articles[0].title).not.to.equal(
-            "Request from API" + dynamicId
-          );
+      };
+      cy.get("@token").then((token) => {
+        cy.request({
+          url: Cypress.env("apiUrl") + "/api/articles",
+          method: "POST",
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+          body: bodyRequest,
+        }).then((res) => {
+          expect(res.status).to.equal(201);
         });
-    });
-  });
+
+        cy.contains("Global Feed").click();
+        cy.get(".preview-link").first().click();
+        cy.get(".article-actions").contains("Delete Article").click();
+        //
+        cy.request({
+          url: Cypress.env("apiUrl") + "/api/articles?limit=10&offset=0",
+          method: "GET",
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        })
+          .its("body")
+          .then((body) => {
+            expect(body.articles[0].title).not.to.equal(
+              "Request from API" + dynamicId
+            );
+          });
+      });
+    }
+  );
 });

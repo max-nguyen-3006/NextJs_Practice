@@ -28,6 +28,3 @@ Then("the user should be redirected to the login page", () => {
   register.verifyLoginPage();
 });
 
-// Then("the user should see an error message {string}", (errorMessage) => {
-//   register.verifyPasswordErrorWithMessage(errorMessage);
-// });
