@@ -1,7 +1,7 @@
 # NextJs_Practice
-This is the NexJs project.
+** This is the NexJs project. **  
 ==========
-1. Nextjs giải quyết vấn đề gì ?
+<ins> 1. Nextjs giải quyết vấn đề gì ? </ins>
 + Render website ở server -> SEO
 + Tối ưu image,font,script, Routing ,Middleware , Server Action, SEO
 
