@@ -66,7 +66,7 @@ NOTE: How to run cypress :
     a. Cy.get()
 
     //by Tag name
-     ``` cy.get("input");  ```
+     ```cy.get("input");```
 
     //by ID
      ``` cy.get("#inputEmail1");  ```
