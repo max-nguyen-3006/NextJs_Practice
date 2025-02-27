@@ -52,24 +52,26 @@
 
 # Cypress concept
 
-    //Theory
+    `Theory`
     //get() - find elements on the page by locator globally
     //find() - find child elements by locator
     //contains() - find HTML text and by text and locator : it will match with the first item
 
-## ** 1. Getting method **
+### NOTE: How to run cypress : 
 
-NOTE: How to run cypress : 
-    - npx cypress open : ( run with open mode)
-    - npx cypress run : ( run with headless mode)
+- npx cypress open : ( run with open mode)
+- npx cypress run : ( run with headless mode)
 
-    a. Cy.get()
+## 1. Getting method
 
-    //by Tag name
-     ```cy.get("input");```
+. Cy.get()
+
+```bash
+     //by Tag name
+    cy.get("input");
 
     //by ID
-     ``` cy.get("#inputEmail1");  ```
+     cy.get("#inputEmail1");  
 
     //by Class value
     cy.get(".input-full-width");
@@ -107,15 +109,16 @@ NOTE: How to run cypress :
       .should("contain", "Sign in")
       .parents("form")
       .find("nb-checkbox")
-      .click();
-
-##  ** 2.Saving object command **
-NOTE:
-     CAN'T DO THING LIKE THIS
+      .click(); 
+```
+## 2. Saving object command 
+### NOTE:
+    // CAN'T DO THING LIKE THIS
     // const usingTheGrid = cy.contains("nb-card", "Using the Grid");
     // usingTheGrid.find('[for="inputEmail1"]').should("contain", "Email");
     // usingTheGrid.find('[for="inputPassword2"]').should("contain", "Password");
 
+```bash 
     a. Cypress Alias : globally
 
     cy.contains("nb-card", "Using the Grid").as("usingTheGrid");
@@ -133,9 +136,10 @@ NOTE:
         .find('[for="inputEmail1"]')
         .should("contain", "Email");
     });
-
-##  ** 3. Extracting text values **
-a. JQuery
+```
+## 3. Extracting text values
+```bash 
+    a. JQuery
 
     cy.get('[for="exampleInputEmail1"]').then((label) => {
       console.log(label.text());
@@ -171,9 +175,10 @@ a. JQuery
     cy.get("#exampleInputEmail1")
       .invoke("prop", "value")
       .should("contain", "test@gmail.com");
-
-##  ** 4. Checkboxes and Radio button **
-    a. Radio
+```
+## 4. Checkboxes and Radio button 
+```bash
+a. Radio
         cy.contains("nb-card", "Using the Grid")
             .find('[type="radio"]')
             .then((radioButtons) => {
@@ -193,9 +198,10 @@ a. JQuery
     // Get all
     cy.get('[type="checkbox"]').uncheck({ force: true });
     cy.get('[type="checkbox"]').eq(0).check({ force: true });
+```
+## 5. Api Mocking and Fixture
 
-##  ** 5. Api Mocking and Fixture **
-
+```bash
     a. Mocking api response 
 
         cy.intercept("GET", Cypress.env("apiUrl") + "/api/tags", {
@@ -214,7 +220,7 @@ a. JQuery
             );
             });
 
-    c. Custom request
+     c. Custom request
 
         cy.intercept("POST", "**/articles", (req) => {
             req.reply((res) => {
@@ -224,9 +230,9 @@ a. JQuery
                 res.body.article.description = "this is the description 2";
             });
         }).as("postArticle");
-
-##  ** 6. Customize Cypress Command **
-
+```
+## 6. Customize Cypress Command
+```bash 
     a. Add cypress command (support/command.ts)
 
         Cypress.Commands.add("loginViaUser", (user) => {
@@ -241,3 +247,4 @@ a. JQuery
         accessHomePage(user) {
             cy.loginViaUser(user.email, user.password);
         }
+```
