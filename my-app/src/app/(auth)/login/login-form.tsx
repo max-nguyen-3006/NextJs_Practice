@@ -20,10 +20,11 @@ import {
 import envConfig from "@/config";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { useAppContext } from "@/app/AppProvider";
 export default function LoginForm() {
   const { toast } = useToast();
   const router = useRouter();
-
+  const { setSessionToken } = useAppContext();
   const [isClient, setIsClient] = useState(false);
   useEffect(() => {
     setIsClient(true);
@@ -65,7 +66,18 @@ export default function LoginForm() {
         title: "Success",
         description: result.payload.message,
       });
-      router.push("/dashboard");
+      const resultFromNextServer = await fetch("/api/auth", {
+        method: "POST",
+        body: JSON.stringify(result),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await resultFromNextServer.json();
+
+      console.log(data.data.token);
+
+      setSessionToken(data?.data?.token);
     } catch (error) {
       const errors = error.payload.errors as {
         message: string;

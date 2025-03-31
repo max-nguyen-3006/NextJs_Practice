@@ -24,7 +24,33 @@ class LoginPage {
     cy.get(".login-toast-success").should("be.visible");
   }
   verifyDashboard() {
-    cy.url().should("include", "/dashboard");
+    cy.url().should("include", "/dashboard/123");
+
+
+    // 1
+    cy.url().then((url) => {
+      const match = url.match(/\/dashboard\/(\d+)/);
+      if (match) {
+        const id = match[1];
+        cy.log(id);
+      }
+    });
+
+    // 2 
+    cy.location('pathname').then((pathname) => {
+      const parts = pathname.split('/'); 
+      const id = parts[2]; 
+      cy.log(id);
+    });
+
+    // 3 URLSearchParams : ?id=456&name=test
+    cy.location('search').then((search) => {
+      const params = new URLSearchParams(search);
+      const id = params.get('id');  //456
+      cy.log(id); 
+    });
+
+    
   }
   verifyPasswordError(errorMessage) {
     this.getPasswordError().should("be.visible");

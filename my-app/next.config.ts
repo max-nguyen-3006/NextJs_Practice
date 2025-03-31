@@ -7,6 +7,17 @@ const nextConfig: NextConfig = {
       fullUrl: true,
     },
   },
+  //images
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.pexels.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
+  },  
 };
 
 export default nextConfig;
