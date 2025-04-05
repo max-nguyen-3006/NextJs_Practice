@@ -18,10 +18,9 @@ import {
   RegisterBodyTypeSchemas,
   registerSchemas,
 } from "@/schemaValidations/auth.schema";
-import envConfig from "@/config";
-
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import authApiRequest from "@/app/apiRequests/auth";
 
 export default function RegisterForm() {
   const { toast } = useToast();
@@ -42,45 +41,27 @@ export default function RegisterForm() {
     console.log(values);
     console.log(process.env.NEXT_PUBLIC_API_ENDPOINT);
     try {
-      const result = await fetch(
-        `${envConfig?.NEXT_PUBLIC_API_ENDPOINT}/auth/register`,
-        {
-          body: JSON.stringify(values),
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+      const result = await authApiRequest.register(values).then((res) => {
+        if (res.status === 200) {
+          toast({
+            className: "register-toast-success",
+            title: "Success",
+            description: "You have successfully registered",
+          });
+          router.push("/login");
+        } else {
+          toast({
+            variant: "destructive",
+            className: "register-toast-failed",
+            title: "Error",
+            description: "You have failed to register",
+          });
         }
-      )
-        .then((res) => {
-          if(res.status === 200){
-            toast({
-              className: "register-toast-success",
-              title: "Success",
-              description: "You have successfully registered",
-            });
-            router.push("/login");
-          }
-          else
-          {
-            toast({
-              variant: "destructive",
-              className: "register-toast-failed",
-              title: "Error",
-              description:"You have failed to register",
-            });
-          }
-          console.log(res);
-          
-        })
-        
+        console.log(res);
+      });
     } catch (error) {
       console.log(error);
-
-
-
     }
-   
   }
   return (
     <Form {...form}>

@@ -50,3 +50,4 @@
 Note: dùng api của server nextjs để set cookie là vì nó có thể set httponly.
         -> nếu client set cookie thì ko thể set httponly
 3. Add Middleware : should be checked at Nextjs Server.
+Note: Document: get từ server hoặc build env : mặc dù use client -> build env : xem như là server.

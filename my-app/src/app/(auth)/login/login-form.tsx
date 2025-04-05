@@ -17,14 +17,14 @@ import {
   LoginBodyTypeSchemas,
   loginSchemas,
 } from "@/schemaValidations/auth.schema";
-import envConfig from "@/config";
+
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import { useAppContext } from "@/app/AppProvider";
+import authApiRequest from "@/app/apiRequests/auth";
+import { clientSessionToken } from "@/lib/http";
 export default function LoginForm() {
   const { toast } = useToast();
   const router = useRouter();
-  const { setSessionToken } = useAppContext();
   const [isClient, setIsClient] = useState(false);
   useEffect(() => {
     setIsClient(true);
@@ -41,43 +41,14 @@ export default function LoginForm() {
   // 2. Define a submit handler.
   async function onSubmit(values: LoginBodyTypeSchemas) {
     try {
-      const result = await fetch(
-        `${envConfig?.NEXT_PUBLIC_API_ENDPOINT}/auth/login`,
-        {
-          body: JSON.stringify(values),
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      ).then(async (res) => {
-        const payload = await res.json();
-        const data = {
-          status: res.status,
-          payload,
-        };
-        if (!res.ok) {
-          throw data;
-        }
-        return data;
-      });
+      const result = await authApiRequest.login(values);
       toast({
         className: "login-toast-success",
         title: "Success",
         description: result.payload.message,
       });
-      const resultFromNextServer = await fetch("/api/auth", {
-        method: "POST",
-        body: JSON.stringify(result),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await resultFromNextServer.json();
-
-      console.log(data.data.token);
-
-      setSessionToken(data?.data?.token);
+      await authApiRequest.auth({ sessionToken: result.payload.data.token });
+      router.push("/me");
     } catch (error) {
       const errors = error.payload.errors as {
         message: string;
